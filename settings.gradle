@@ -1,0 +1,15 @@
+pluginManagement {
+    plugins {
+        id 'org.springframework.boot' version '4.1.0'
+    }
+}
+
+rootProject.name = 'dorado-project'
+
+include 'dorado-core'
+include 'dorado-tag-editor'
+include 'dorado-uploader'
+include 'dorado-hibernate'
+include 'dorado-springboot'
+include 'examples:dahua'
+include 'examples:webapp'

@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Ant-Version: Apache Ant 1.8.2
+Created-By: 1.6.0_30-b12 (Sun Microsystems Inc.)
+Implementation-Title: dorado-tag-editor-sources
+Implementation-Vendor: www.BSTEK.com
+Implementation-Version: 0.2.7.150708.1212
+

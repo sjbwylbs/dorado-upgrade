@@ -1,0 +1,6 @@
+Manifest-Version: 1.0
+Ant-Version: Apache Ant 1.9.6
+Created-By: 1.7.0_79-b15 (Oracle Corporation)
+Implementation-Title: dorado-core-sources
+Implementation-Vendor: www.BSTEK.com
+Implementation-Version: 8.0.0.180410.1612

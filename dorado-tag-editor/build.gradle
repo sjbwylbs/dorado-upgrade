@@ -1,0 +1,6 @@
+// dorado-tag-editor module
+description = 'dorado tag-editor'
+
+dependencies {
+    implementation project(':dorado-core')
+}

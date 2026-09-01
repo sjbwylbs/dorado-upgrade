@@ -1,0 +1,21 @@
+// dorado-springboot module - Spring Boot Starter (auto-configuration library)
+description = 'dorado spring boot starter'
+
+dependencies {
+    implementation project(':dorado-core')
+
+    // Spring Boot auto-configuration (provided - consumer brings their own Spring Boot)
+    compileOnly "org.springframework.boot:spring-boot-autoconfigure:${rootProject.ext.springBootVersion}"
+    compileOnly "org.springframework.boot:spring-boot:${rootProject.ext.springBootVersion}"
+    compileOnly "jakarta.servlet:jakarta.servlet-api:${rootProject.ext.servletApiVersion}"
+
+    // Logging - Log4j2 implementation for best performance
+    implementation "org.apache.logging.log4j:log4j-core:${rootProject.ext.log4j2Version}"
+    implementation "org.apache.logging.log4j:log4j-slf4j2-impl:${rootProject.ext.log4j2Version}"
+
+    // Test
+    testImplementation "org.springframework.boot:spring-boot-starter-web:${rootProject.ext.springBootVersion}"
+    testImplementation("org.springframework.boot:spring-boot-starter-test:${rootProject.ext.springBootVersion}") {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+}

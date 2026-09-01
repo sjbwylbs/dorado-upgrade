@@ -1,0 +1,56 @@
+package com.bstek.dorado.view.widget.base.toolbar;
+
+import java.util.List;
+
+import com.bstek.dorado.annotation.ClientObject;
+import com.bstek.dorado.annotation.ClientProperty;
+import com.bstek.dorado.annotation.IdeProperty;
+import com.bstek.dorado.annotation.XmlSubNode;
+import com.bstek.dorado.view.annotation.Widget;
+import com.bstek.dorado.view.widget.Control;
+import com.bstek.dorado.view.widget.InnerElementList;
+
+@Widget(name = "ToolBar", category = "General", dependsPackage = "base-widget-desktop")
+@ClientObject(prototype = "dorado.widget.ToolBar", shortTypeName = "ToolBar")
+public class ToolBar extends Control {
+
+	private List<Control> items = new InnerElementList<>(this);
+
+	private boolean fixRight;
+
+	private boolean showMenuOnHover;
+
+	@Override
+	@IdeProperty(visible = false)
+	public String getHeight() {
+		return super.getHeight();
+	}
+
+	public void addItem(Control item) {
+		items.add(item);
+	}
+
+	@XmlSubNode(implTypes = "com.bstek.dorado.view.widget.base.toolbar.*")
+	@ClientProperty
+	public List<Control> getItems() {
+		return items;
+	}
+
+	@ClientProperty(escapeValue = "false")
+	public boolean isShowMenuOnHover() {
+		return showMenuOnHover;
+	}
+
+	public boolean isFixRight() {
+		return fixRight;
+	}
+
+	public void setFixRight(boolean fixRight) {
+		this.fixRight = fixRight;
+	}
+
+	public void setShowMenuOnHover(boolean showMenuOnHover) {
+		this.showMenuOnHover = showMenuOnHover;
+	}
+
+}

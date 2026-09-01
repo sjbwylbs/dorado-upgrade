@@ -1,0 +1,132 @@
+// ============================================================
+// Dorado Project - Root Build Configuration
+// Migrated from Maven 4.0 to Gradle
+// ============================================================
+
+// ----- Version Properties (from pom.xml) -----
+ext {
+    // Project
+    doradoVersion = '8.1.0.0'
+    javaVersion = 25
+
+    // dorado-core dependencies
+    cglibVersion = '3.3.0'
+    javassistVersion = '3.31.0-GA'
+    ehcacheVersion = '3.11.1'
+    paranamerVersion = '2.8.3'
+    velocityVersion = '2.4.1'
+    commonsLang3Version = '3.20.0'
+    commonsTextVersion = '1.13.0'
+    commonsCollections4Version = '4.5.0'
+    commonsDigester3Version = '3.2'
+    commonsBeanutilsVersion = '1.11.0'
+    commonsCodecVersion = '1.22.0'
+    commonsJexl3Version = '3.6.2'
+    commonsDbcp2Version = '2.14.0'
+    log4j2Version = '2.26.0'
+    slf4jVersion = '2.0.18'
+    springVersion = '7.0.8'
+    dom4jVersion = '2.2.0'
+    h2Version = '2.4.240'
+    servletApiVersion = '6.1.0'
+    jspApiVersion = '4.0.0'
+    elApiVersion = '5.0.0'
+    jstlVersion = '3.0.0'
+
+    // dorado-uploader dependencies
+    jackson2Version = '2.22.1'
+    activationVersion = '2.1.4'
+
+    // dorado-hibernate dependencies
+    hibernateVersion = '7.2.19.Final'
+
+    // Test dependencies
+    junitJupiterVersion = '5.12.2'
+    mockitoVersion = '5.17.0'
+    assertjVersion = '3.27.7'
+
+    // dorado-springboot dependencies
+    springBootVersion = '4.1.1'
+    lombokVersion = '1.18.46'
+}
+
+// ----- All Projects Configuration -----
+allprojects {
+    group = 'com.bstek.dorado'
+    version = rootProject.ext.doradoVersion
+
+    repositories {
+        mavenCentral()
+        maven { url 'https://oss.sonatype.org/content/groups/public/' }
+    }
+}
+
+// ----- Subprojects Common Configuration -----
+subprojects {
+    apply plugin: 'java-library'
+
+    java {
+        sourceCompatibility = JavaVersion.VERSION_25
+        targetCompatibility = JavaVersion.VERSION_25
+    }
+
+    tasks.withType(JavaCompile).configureEach {
+        options.encoding = 'UTF-8'
+        options.compilerArgs += ['-Xlint:deprecation', '-Xlint:unchecked', '-parameters']
+    }
+
+    // Lombok annotation processor for all subprojects
+    dependencies {
+        compileOnly "org.projectlombok:lombok:${rootProject.ext.lombokVersion}"
+        annotationProcessor "org.projectlombok:lombok:${rootProject.ext.lombokVersion}"
+        testCompileOnly "org.projectlombok:lombok:${rootProject.ext.lombokVersion}"
+        testAnnotationProcessor "org.projectlombok:lombok:${rootProject.ext.lombokVersion}"
+    }
+
+    // Common test dependencies
+    dependencies {
+        testImplementation "org.junit.jupiter:junit-jupiter:${rootProject.ext.junitJupiterVersion}"
+        testRuntimeOnly "org.junit.platform:junit-platform-launcher"
+        testImplementation "org.mockito:mockito-core:${rootProject.ext.mockitoVersion}"
+        testImplementation "org.mockito:mockito-junit-jupiter:${rootProject.ext.mockitoVersion}"
+        testImplementation "org.assertj:assertj-core:${rootProject.ext.assertjVersion}"
+    }
+
+    test {
+        useJUnitPlatform()
+        jvmArgs '--add-opens=java.base/java.lang=ALL-UNNAMED',
+                '--add-opens=java.base/java.io=ALL-UNNAMED',
+                '--add-opens=java.base/java.util=ALL-UNNAMED',
+                '--add-opens=java.base/java.util.concurrent=ALL-UNNAMED',
+                '--add-opens=java.rmi/sun.rmi.transport=ALL-UNNAMED',
+                '-XX:+EnableDynamicAgentLoading',
+                '-Djdk.net.URLClassPath.disableClassPathURLCheck=true'
+    }
+
+    // Common resource configuration: include non-Java files from src/main/java
+    sourceSets {
+        main {
+            resources {
+                srcDir 'src/main/java'
+                include '**/*.min.js', '**/*.css', '**/*.view.xml', '**/*.html',
+                        '**/*.xml', '**/*.xsd', '**/*.properties',
+                        '**/*.xlsx', '**/*.jpg', '**/*.png', '**/*.js',
+                        '**/*.gif', '**/*.json', '**/*.conf', '**/*.tld',
+                        '**/*.MF', '**/*.handlers', '**/*.schemas',
+                        '**/*.factories', '**/*.imports'
+                srcDir 'src/main/resources'
+                exclude '**/*.java'
+            }
+        }
+        test {
+            resources {
+                srcDir 'src/test/java'
+            }
+        }
+    }
+
+    // Handle duplicate resources between src/main/java and src/main/resources
+    tasks.named('processResources') {
+        duplicatesStrategy = DuplicatesStrategy.INCLUDE
+    }
+}

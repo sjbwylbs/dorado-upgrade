@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RuleSet>
+	<Rule name="Model" icon="/com/bstek/dorado/view/manager/Model.png">
+		<Children>
+			<Child name="DataType" rule="AbstractDataType" aggregated="true" />
+			<Child name="DataProvider" rule="AbstractDataProvider" aggregated="true" />
+			<Child name="DataResolver" rule="AbstractDataResolver" aggregated="true" />
+		</Children>
+	</Rule>
+
+	<Rule name="AbstractDataType" type="com.bstek.dorado.data.type.AbstractDataType" />
+	<Rule name="AbstractDataProvider" type="com.bstek.dorado.data.provider.AbstractDataProvider" />
+	<Rule name="AbstractDataResolver" type="com.bstek.dorado.data.resolver.AbstractDataResolver" />
+	
+	<!-- 
+	<Rule name="DataType" type="com.bstek.dorado.data.type.DefaultEntityDataType" >
+		<Children>
+			<Child name="PropertyDef" rule="BasePropertyDef" aggregated="true" />
+			<Child name="Reference" rule="Reference" aggregated="true" />
+		</Children>
+	</Rule>
+	<Rule name="BasePropertyDef" type="com.bstek.dorado.data.type.property.BasePropertyDef"/>
+	<Rule name="Reference" type="com.bstek.dorado.data.type.property.Reference"/>
+	 -->
+</RuleSet>

@@ -1,0 +1,21 @@
+feat: dorado-hibernate 升级到 Hibernate 6.2.10
+
+核心变更：
+- 将 Hibernate Criteria API 全面迁移到 JPA Criteria API
+- 新增 CriteriaContext 类封装 JPA 查询上下文
+- 重写 CriteriaImplHelper，替代原反射操作 DetachedCriteria 的实现
+- criterion 包：所有条件类返回 Predicate 而非 Criterion
+- projection 包：所有投影类返回 Selection 而非 Projection
+- BaseHibernateCriteriaTransformer 重写 alias/projection/criterion/order 处理
+- CriteriaDataProvider 使用 JPA Criteria 执行查询和分页计数
+- HibernateUtils.applyFilter/mergeFilter 全部改为 JPA 方式
+- DoradoAnnotationConfiguration 不再继承 Configuration，改为静态辅助方法
+
+其他变更：
+- HibernateDao: getClassMetadata → getMetamodel().entity()
+- EntityState → FilterType
+- dorado-core: javax.servlet → jakarta.servlet 全量迁移
+- dorado-core: HandlerInterceptorAdapter → HandlerInterceptor
+- dorado-uploader: CommonsMultipartResolver → StandardServletMultipartResolver
+- examples/webapp: dorado 依赖升级到 8.0.0
+- 新增 upgrade-docs 目录记录升级文档

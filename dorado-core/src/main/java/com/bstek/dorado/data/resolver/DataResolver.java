@@ -1,0 +1,54 @@
+package com.bstek.dorado.data.resolver;
+
+import com.bstek.dorado.annotation.XmlNode;
+import com.bstek.dorado.annotation.XmlProperty;
+import com.bstek.dorado.core.bean.Scope;
+import com.bstek.dorado.data.DataModelObject;
+
+@XmlNode(nodeName = "DataResolver", parser = "spring:dorado.prototype.dataResolverParser",
+		definitionType = "com.bstek.dorado.data.config.definition.DataResolverDefinition", scopable = true,
+		inheritable = true,
+		properties = {
+				@XmlProperty(propertyName = "overwrite", propertyType = "boolean", attributeOnly = true,
+						ignored = true),
+				@XmlProperty(propertyName = "interceptor", parser = "spring:dorado.staticPropertyParser") })
+public interface DataResolver extends DataModelObject {
+
+	/**
+	 * 返回DataResolver的名称。
+	 */
+	@Override
+	String getName();
+
+	/**
+	 * 返回作用范围。
+	 */
+	Scope getScope();
+
+	/**
+	 * 设置默认参数。
+	 */
+	Object getParameter();
+
+	/**
+	 * 设置默认参数。
+	 */
+	void setParameter(Object parameter);
+
+	/**
+	 * @param dataItems
+	 * @param parameter
+	 * @return
+	 * @throws Exception
+	 */
+	Object resolve(DataItems dataItems) throws Exception;
+
+	/**
+	 * @param dataItems
+	 * @param parameter
+	 * @return
+	 * @throws Exception
+	 */
+	Object resolve(DataItems dataItems, Object parameter) throws Exception;
+
+}

@@ -1,0 +1,47 @@
+package com.bstek.dorado.spring;
+
+import java.util.Properties;
+
+import org.springframework.beans.MutablePropertyValues;
+import org.springframework.beans.factory.config.BeanDefinitionHolder;
+import org.springframework.beans.factory.support.AbstractBeanDefinition;
+import org.springframework.beans.factory.support.ManagedMap;
+import org.springframework.beans.factory.xml.BeanDefinitionDecorator;
+import org.springframework.beans.factory.xml.ParserContext;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+
+public class VirtualEventDecorator implements BeanDefinitionDecorator {
+
+	private static final String VIRTUAL_EVENTS = "virtualEvents";
+
+	@Override
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public BeanDefinitionHolder decorate(Node node, BeanDefinitionHolder definition, ParserContext parserContext) {
+		AbstractBeanDefinition beanDef = (AbstractBeanDefinition) definition.getBeanDefinition();
+		MutablePropertyValues propertyValues = (beanDef.getPropertyValues() == null) ? new MutablePropertyValues()
+				: beanDef.getPropertyValues();
+
+		ManagedMap map = null;
+		boolean firstPropertyValue = propertyValues.getPropertyValue(VIRTUAL_EVENTS) == null;
+
+		if (!firstPropertyValue) {
+			map = (ManagedMap) (propertyValues.getPropertyValue(VIRTUAL_EVENTS).getValue());
+		}
+		else {
+			map = new ManagedMap();
+			map.setSource(node);
+			map.setMergeEnabled(true);
+			propertyValues.addPropertyValue(VIRTUAL_EVENTS, map);
+			beanDef.setPropertyValues(propertyValues);
+		}
+
+		Element el = (Element) node;
+		String name = el.getAttribute("name");
+		Properties eventDescriptor = new Properties();
+		eventDescriptor.setProperty("signature", el.getAttribute("signature"));
+		map.put(name, eventDescriptor);
+		return definition;
+	}
+
+}

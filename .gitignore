@@ -1,0 +1,82 @@
+### Build outputs ###
+**/build/
+**/target/
+**/.flattened-pom.xml
+effective-pom.xml
+classes/
+buildSrc/build
+/spring-*/build
+/framework-*/build
+/integration-tests/build
+/src/asciidoc/build
+spring-test/test-output/
+
+### Gradle cache (machine-local, not project files) ###
+.gradle/
+.gradletasknamecache
+
+### Maven wrapper (downloaded dists) ###
+.mvn/wrapper/dists/
+
+### Maven artifacts ###
+**/target/
+
+### IDE - Eclipse ###
+.settings/
+.classpath
+.project
+.factorypath
+.springBeans
+bin/
+.externalToolBuilders
+spring-*/src/main/java/META-INF/MANIFEST.MF
+
+### IDE - IntelliJ IDEA ###
+.idea/
+*.iml
+*.ipr
+*.iws
+out/
+.apt_generated/
+.apt_generated_tests/
+atlassian-ide-plugin.xml
+
+### IDE - VS Code ###
+.vscode/
+
+### IDE - JRebel ###
+rebel.xml
+
+### Logs ###
+*.log
+logs/
+jxl.log
+jmx.log
+derby.log
+
+### OS ###
+.DS_Store
+Thumbs.db
+
+### Node.js ###
+**/node_modules/
+**/dist/
+**/.vite/
+
+### Misc ###
+*.sw*
+*.java.hsp
+*.sonarj
+argfile*
+activemq-data/
+integration-repo
+ivy-cache
+test-output/
+build.sh
+cached-antora-playbook.yml
+
+### AI tools ###
+.claude/
+.codeartsdoer/
+
+/test/

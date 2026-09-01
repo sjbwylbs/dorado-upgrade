@@ -1,0 +1,85 @@
+package com.bstek.dorado.view.loader;
+
+import java.util.Map;
+
+import org.apache.commons.beanutils.BeanMap;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+
+import com.bstek.dorado.common.ClientType;
+import com.bstek.dorado.config.ConfigUtils;
+import com.bstek.dorado.config.ParseContext;
+import com.bstek.dorado.config.xml.ConfigurableDispatchableXmlParser;
+import com.bstek.dorado.util.Assert;
+
+/**
+ * 资源包的解析器。
+ *
+ */
+public class PackagesConfigPackageParser extends ConfigurableDispatchableXmlParser {
+
+	private static final String NONE_FILE = "(none)";
+
+	@Override
+	@SuppressWarnings("unchecked")
+	protected Object doParse(Node node, ParseContext context) throws Exception {
+		Element element = (Element) node;
+		String name = element.getAttribute("name");
+		Assert.notEmpty(name);
+
+		Package pkg;
+		PackagesConfig packagesConfig = ((PackagesConfigParseContext) context).getPackagesConfig();
+		Map<String, Package> packages = packagesConfig.getPackages();
+		pkg = packages.get(name);
+		if (pkg == null) {
+			pkg = new Package(name);
+			packages.put(name, pkg);
+		}
+
+		Map<String, Object> properties = parseProperties(element, context);
+		if (!properties.containsKey("fileNames")) {
+			Object value = parseProperty("fileNames", element, context);
+			if (value != null && value != ConfigUtils.IGNORE_VALUE) {
+				properties.put("fileNames", value);
+			}
+		}
+
+		String fileNamesText = StringUtils.trim((String) properties.remove("fileNames"));
+		fileNamesText = StringUtils.defaultIfEmpty(fileNamesText, NONE_FILE);
+		String[] oldFileNames = pkg.getFileNames();
+		String[] newFileNames = fileNamesText.split(",");
+
+		boolean append = Boolean.parseBoolean((String) properties.remove("append"));
+		if (append && oldFileNames != null && oldFileNames.length > 0) {
+			newFileNames = (String[]) ArrayUtils.addAll(oldFileNames, newFileNames);
+		}
+		pkg.setFileNames(newFileNames);
+
+		String dependsText = (String) properties.remove("depends");
+		if (StringUtils.isNotEmpty(dependsText)) {
+			String[] dependsArray = dependsText.split(",");
+			for (String depends : dependsArray) {
+				pkg.getDepends().add(depends);
+			}
+		}
+
+		String dependedByText = (String) properties.remove("dependedBy");
+		if (StringUtils.isNotEmpty(dependedByText)) {
+			String[] dependedByArray = dependedByText.split(",");
+			for (String dependedBy : dependedByArray) {
+				pkg.getDependedBy().add(dependedBy);
+			}
+		}
+
+		String clientTypeText = (String) properties.remove("clientType");
+		if (StringUtils.isNotEmpty(clientTypeText)) {
+			pkg.setClientType(ClientType.parseClientTypes(clientTypeText));
+		}
+
+		new BeanMap(pkg).putAll(properties);
+		return pkg;
+	}
+
+}

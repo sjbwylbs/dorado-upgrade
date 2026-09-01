@@ -1,0 +1,99 @@
+package com.bstek.dorado.view.resolver;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+
+import org.apache.commons.beanutils.MethodUtils;
+import org.apache.velocity.app.VelocityEngine;
+import org.springframework.beans.factory.FactoryBean;
+
+import com.bstek.dorado.util.clazz.ClassUtils;
+import com.bstek.dorado.web.ConsoleUtils;
+
+public class VelocityHelperFactoryBean implements FactoryBean<VelocityHelper> {
+
+	private static Class<?> toolManagerType;
+
+	static {
+		try {
+			toolManagerType = ClassUtils.forName("org.apache.velocity.tools.ToolManager");
+			ConsoleUtils.outputLoadingInfo("Velocity tools enabled.");
+		}
+		catch (ClassNotFoundException e) {
+			// do nothing
+		}
+	}
+
+	private Properties velocityProperties;
+
+	private Properties velocityToolProperties;
+
+	private List<VelocityContextInitializer> contextInitializer;
+
+	public Properties getVelocityProperties() {
+		return velocityProperties;
+	}
+
+	public void setVelocityProperties(Properties velocityProperties) {
+		this.velocityProperties = velocityProperties;
+	}
+
+	public Properties getVelocityToolProperties() {
+		return velocityToolProperties;
+	}
+
+	public void setVelocityToolProperties(Properties velocityToolProperties) {
+		this.velocityToolProperties = velocityToolProperties;
+	}
+
+	public List<VelocityContextInitializer> getContextInitializer() {
+		return contextInitializer;
+	}
+
+	public void setContextInitializer(List<VelocityContextInitializer> contextInitializer) {
+		this.contextInitializer = contextInitializer;
+	}
+
+	@Override
+	public Class<?> getObjectType() {
+		return SimpleVelocityHelper.class;
+	}
+
+	@Override
+	public boolean isSingleton() {
+		return true;
+	}
+
+	protected VelocityEngine getVelocityEngine() throws Exception {
+		VelocityEngine velocityEngine = new VelocityEngine();
+		if (velocityProperties != null) {
+			velocityEngine.init(velocityProperties);
+		}
+		return velocityEngine;
+	}
+
+	@Override
+	@SuppressWarnings("rawtypes")
+	public VelocityHelper getObject() throws Exception {
+		if (toolManagerType != null) {
+			Object toolManager = toolManagerType.getDeclaredConstructor().newInstance();
+			if (velocityToolProperties != null) {
+				Class<?> configType = ClassUtils
+					.forName("org.apache.velocity.tools.config.PropertiesFactoryConfiguration");
+				Object config = configType.getDeclaredConstructor().newInstance();
+				for (Map.Entry entry : velocityToolProperties.entrySet()) {
+					MethodUtils.invokeMethod(config, "setProperty", new Object[] { entry.getKey(), entry.getValue() });
+				}
+				MethodUtils.invokeMethod(toolManager, "configure", new Object[] { config });
+			}
+			MethodUtils.invokeMethod(toolManager, "setVelocityEngine", new Object[] { getVelocityEngine() });
+
+			return new VelocityWithToolsHelper(toolManager);
+		}
+		else {
+			return new SimpleVelocityHelper(getVelocityEngine());
+		}
+	}
+
+}

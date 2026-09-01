@@ -1,0 +1,76 @@
+package com.bstek.dorado.view;
+
+import java.io.Writer;
+import java.util.Set;
+
+import org.apache.commons.lang3.StringUtils;
+
+import com.bstek.dorado.common.ClientType;
+import com.bstek.dorado.core.Configure;
+import com.bstek.dorado.data.variant.VariantUtils;
+import com.bstek.dorado.view.output.ClientOutputHelper;
+import com.bstek.dorado.view.output.OutputContext;
+import com.bstek.dorado.web.DoradoContext;
+import com.bstek.dorado.web.WebConfigure;
+
+/**
+ * 顶层视图对象的输出器。
+ *
+ */
+public class TopViewOutputter extends ViewOutputter {
+
+	private ClientOutputHelper clientOutputHelper;
+
+	public void setClientOutputHelper(ClientOutputHelper clientOutputHelper) {
+		this.clientOutputHelper = clientOutputHelper;
+	}
+
+	@Override
+	public void output(Object object, OutputContext context) throws Exception {
+		View view = (View) object;
+		if (StringUtils.isEmpty(view.getId())) {
+			view.setId("viewMain");
+		}
+
+		context.addDependsPackage("widget");
+
+		DoradoContext doradoContext = DoradoContext.getCurrent();
+		int currentClientType = VariantUtils.toInt(doradoContext.getAttribute(ClientType.CURRENT_CLIENT_TYPE_KEY));
+		if ((currentClientType == 0 || ClientType.supports(currentClientType, ClientType.DESKTOP))
+				&& WebConfigure.getBoolean("view.debugEnabled")) {
+			context.addDependsPackage("debugger");
+		}
+
+		Writer writer = context.getWriter();
+		writer.append("dorado.onInit(function(){\n");
+		writer.append("try{\n");
+
+		ViewOutputter outputter = (ViewOutputter) clientOutputHelper.getOutputter(view.getClass());
+		outputter.outputView(view, context);
+
+		if (Configure.getBoolean("view.javaScript.fireViewOnCreateForOldController")) {
+			writer.append("view.fireOnCreateForOldJsController();\n");
+		}
+		writer.append("view.set(\"renderOn\",\"#doradoView\");\n");
+
+		ViewRenderMode renderMode = view.getRenderMode();
+		if (renderMode == ViewRenderMode.onCreate) {
+			writer.append("view.render();\n");
+		}
+		else {
+			writer.append("view.onReady();\n");
+			writer.append("view.loadData();\n");
+		}
+
+		writer.append("}\n").append("catch(e){").append("dorado.Exception.processException(e);}\n");
+		writer.append("});\n");
+
+		context.addDependsPackage("common");
+
+		Set<String> dependsPackages = context.getDependsPackages();
+		if (dependsPackages != null && !dependsPackages.isEmpty()) {
+			writer.append("$import(\"").append(StringUtils.join(dependsPackages, ',')).append("\");\n");
+		}
+	}
+
+}

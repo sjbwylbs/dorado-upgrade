@@ -1,0 +1,19 @@
+// dorado-uploader module
+description = 'dorado uploader'
+
+dependencies {
+    implementation project(':dorado-core')
+
+    // Servlet API (provided)
+    compileOnly "jakarta.servlet:jakarta.servlet-api:${rootProject.ext.servletApiVersion}"
+
+    // Commons
+    implementation "org.apache.commons:commons-lang3:${rootProject.ext.commonsLang3Version}"
+
+    // Jackson
+    implementation "com.fasterxml.jackson.core:jackson-core:${rootProject.ext.jackson2Version}"
+    implementation "com.fasterxml.jackson.core:jackson-databind:${rootProject.ext.jackson2Version}"
+
+    // Activation
+    implementation "jakarta.activation:jakarta.activation-api:${rootProject.ext.activationVersion}"
+}

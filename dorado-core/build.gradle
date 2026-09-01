@@ -1,0 +1,49 @@
+// dorado-core module
+description = 'dorado core'
+
+dependencies {
+    api "cglib:cglib:${rootProject.ext.cglibVersion}"
+    api "org.javassist:javassist:${rootProject.ext.javassistVersion}"
+    api "org.ehcache:ehcache:${rootProject.ext.ehcacheVersion}"
+    api "com.thoughtworks.paranamer:paranamer:${rootProject.ext.paranamerVersion}"
+    api "org.apache.velocity:velocity-engine-core:${rootProject.ext.velocityVersion}"
+    api "org.apache.commons:commons-lang3:${rootProject.ext.commonsLang3Version}"
+    api "org.apache.commons:commons-text:${rootProject.ext.commonsTextVersion}"
+    api "org.apache.commons:commons-collections4:${rootProject.ext.commonsCollections4Version}"
+    api "org.apache.commons:commons-digester3:${rootProject.ext.commonsDigester3Version}"
+    api "commons-beanutils:commons-beanutils:${rootProject.ext.commonsBeanutilsVersion}"
+    api "commons-codec:commons-codec:${rootProject.ext.commonsCodecVersion}"
+    api "org.apache.commons:commons-jexl3:${rootProject.ext.commonsJexl3Version}"
+
+    // Logging
+    compileOnly "org.apache.logging.log4j:log4j-api:${rootProject.ext.log4j2Version}"
+    api "org.slf4j:slf4j-api:${rootProject.ext.slf4jVersion}"
+    compileOnly "org.apache.logging.log4j:log4j-slf4j2-impl:${rootProject.ext.log4j2Version}"
+
+    // Spring
+    api "org.springframework:spring-core:${rootProject.ext.springVersion}"
+    api "org.springframework:spring-beans:${rootProject.ext.springVersion}"
+    api "org.springframework:spring-context:${rootProject.ext.springVersion}"
+    api "org.springframework:spring-context-support:${rootProject.ext.springVersion}"
+    api "org.springframework:spring-expression:${rootProject.ext.springVersion}"
+    api "org.springframework:spring-web:${rootProject.ext.springVersion}"
+    api "org.springframework:spring-webmvc:${rootProject.ext.springVersion}"
+
+    // DOM
+    api "org.dom4j:dom4j:${rootProject.ext.dom4jVersion}"
+
+    // Jackson
+    api "com.fasterxml.jackson.core:jackson-databind:${rootProject.ext.jackson2Version}"
+
+    // Database
+    api "com.h2database:h2:${rootProject.ext.h2Version}"
+    api "org.apache.commons:commons-dbcp2:${rootProject.ext.commonsDbcp2Version}"
+
+    // Servlet API (provided)
+    compileOnly "jakarta.servlet:jakarta.servlet-api:${rootProject.ext.servletApiVersion}"
+    compileOnly "jakarta.servlet.jsp:jakarta.servlet.jsp-api:${rootProject.ext.jspApiVersion}"
+    compileOnly "jakarta.el:jakarta.el-api:${rootProject.ext.elApiVersion}"
+
+    // Test needs servlet API too
+    testImplementation "jakarta.servlet:jakarta.servlet-api:${rootProject.ext.servletApiVersion}"
+}

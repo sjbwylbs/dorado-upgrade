@@ -1,0 +1,84 @@
+package com.bstek.dorado.view.widget.base;
+
+import java.util.List;
+
+import com.bstek.dorado.annotation.ClientEvent;
+import com.bstek.dorado.annotation.ClientEvents;
+import com.bstek.dorado.annotation.ClientObject;
+import com.bstek.dorado.annotation.ClientProperty;
+import com.bstek.dorado.annotation.IdeProperty;
+import com.bstek.dorado.annotation.XmlNode;
+import com.bstek.dorado.annotation.XmlProperty;
+import com.bstek.dorado.annotation.XmlSubNode;
+import com.bstek.dorado.common.ClientType;
+import com.bstek.dorado.view.annotation.Widget;
+import com.bstek.dorado.view.widget.Control;
+import com.bstek.dorado.view.widget.InnerElementList;
+
+@Widget(name = "CardBook", category = "General", dependsPackage = "base-widget")
+@ClientObject(prototype = "dorado.widget.CardBook", shortTypeName = "CardBook")
+@XmlNode(clientTypes = { ClientType.DESKTOP, ClientType.TOUCH })
+@ClientEvents({ @ClientEvent(name = "beforeCurrentChange"), @ClientEvent(name = "onCurrentChange") })
+public class CardBook extends Control {
+
+	private List<Control> controls = new InnerElementList<>(this);
+
+	private int currentIndex;
+
+	private boolean dynaHeight = false;
+
+	public int getCurrentIndex() {
+		return currentIndex;
+	}
+
+	public void setCurrentIndex(int currentIndex) {
+		this.currentIndex = currentIndex;
+	}
+
+	@Deprecated
+	private int currentControl;
+
+	@Deprecated
+	@XmlProperty(deprecated = true)
+	@IdeProperty(visible = false)
+	public int getCurrentControl() {
+		return currentControl;
+	}
+
+	@Deprecated
+	public void setCurrentControl(int currentControl) {
+		this.currentControl = currentControl;
+	}
+
+	@ClientProperty(escapeValue = "false")
+	public boolean isDynaHeight() {
+		return dynaHeight;
+	}
+
+	public void setDynaHeight(boolean dynaHeight) {
+		this.dynaHeight = dynaHeight;
+	}
+
+	public void setCurrentControl(String activeControlId) {
+		int i = 0;
+		for (Control control : controls) {
+			if (activeControlId.equals(control.getId())) {
+				setCurrentControl(i);
+				return;
+			}
+			i++;
+		}
+		throw new IllegalArgumentException("No such child control [" + activeControlId + "] in CardBook");
+	}
+
+	public void addControl(Control control) {
+		controls.add(control);
+	}
+
+	@XmlSubNode
+	@ClientProperty
+	public List<Control> getControls() {
+		return controls;
+	}
+
+}

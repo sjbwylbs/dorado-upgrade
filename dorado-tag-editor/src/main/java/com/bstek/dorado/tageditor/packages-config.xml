@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	<Packages>
+		<Package name="tag-editor-skin" pattern="dorado-css">
+			skins/~current/tag-editor
+		</Package>
+		<Package name="tag-editor" pattern="dorado-js" depends="base-widget,list,tag-editor-skin">
+			scripts/dorado/tag-editor
+		</Package>
+	</Packages>
+</config>

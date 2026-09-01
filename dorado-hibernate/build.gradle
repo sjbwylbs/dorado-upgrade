@@ -1,0 +1,14 @@
+// dorado-hibernate module
+description = 'dorado hibernate'
+
+dependencies {
+    implementation project(':dorado-core')
+    implementation project(':dorado-uploader')
+    implementation project(':dorado-tag-editor')
+
+    // Hibernate
+    implementation "org.hibernate.orm:hibernate-core:${rootProject.ext.hibernateVersion}"
+
+    // Test
+    testImplementation "com.h2database:h2:${rootProject.ext.h2Version}"
+}

@@ -1,0 +1,89 @@
+package com.bstek.dorado.idesupport;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Vector;
+
+import org.apache.commons.lang3.StringUtils;
+
+import com.bstek.dorado.core.pkgs.PackageInfo;
+import com.bstek.dorado.idesupport.template.RuleTemplate;
+import com.bstek.dorado.util.Assert;
+import com.bstek.dorado.util.clazz.ClassUtils;
+
+public class RuleTemplateManager {
+
+	private String version;
+
+	private List<PackageInfo> packageInfos = new ArrayList<>();
+
+	private Map<String, RuleTemplate> ruleTemplateMap = new LinkedHashMap<>();
+
+	private List<RuleTemplateManagerListener> listeners;
+
+	public String getVersion() {
+		return version;
+	}
+
+	public void setVersion(String version) {
+		this.version = version;
+	}
+
+	public List<PackageInfo> getPackageInfos() {
+		return packageInfos;
+	}
+
+	public void addRuleTemplate(RuleTemplate ruleTemplate) throws Exception {
+		String name = ruleTemplate.getName();
+		Assert.notEmpty(name);
+		ruleTemplate.setGlobal(true);
+		ruleTemplateMap.put(name, ruleTemplate);
+
+		if (listeners != null) {
+			for (RuleTemplateManagerListener listener : listeners) {
+				listener.ruleTemplateAdded(this, ruleTemplate);
+			}
+		}
+	}
+
+	public void removeRuleTemplate(String name) throws Exception {
+		ruleTemplateMap.remove(name);
+	}
+
+	public Collection<RuleTemplate> getRuleTemplates() {
+		return ruleTemplateMap.values();
+	}
+
+	public RuleTemplate getRuleTemplate(String ruleName) {
+		return ruleTemplateMap.get(ruleName);
+	}
+
+	public RuleTemplate getRuleTemplate(Class<?> type) throws ClassNotFoundException {
+		for (RuleTemplate ruleTemplate : ruleTemplateMap.values()) {
+			if (StringUtils.isNotEmpty(ruleTemplate.getType())) {
+				Class<?> ruleType = ClassUtils.forName(ruleTemplate.getType());
+				if (ruleType.equals(type)) {
+					return ruleTemplate;
+				}
+			}
+		}
+		return null;
+	}
+
+	public void addListener(RuleTemplateManagerListener listener) {
+		if (listeners == null) {
+			listeners = new Vector<>();
+		}
+		listeners.add(listener);
+	}
+
+	public void removeListener(RuleTemplateManagerListener listener) {
+		if (listeners != null) {
+			listeners.remove(listener);
+		}
+	}
+
+}

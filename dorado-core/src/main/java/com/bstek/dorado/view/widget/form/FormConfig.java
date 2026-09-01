@@ -1,0 +1,75 @@
+package com.bstek.dorado.view.widget.form;
+
+import com.bstek.dorado.view.widget.Align;
+
+public interface FormConfig {
+
+	String getWidth();
+
+	void setWidth(String width);
+
+	String getHeight();
+
+	void setHeight(String height);
+
+	String getClassName();
+
+	void setClassName(String className);
+
+	String getUi();
+
+	void setUi(String ui);
+
+	String getLabelSeparator();
+
+	void setLabelSeparator(String labelSeparator);
+
+	boolean isShowLabel();
+
+	void setShowLabel(boolean showLabel);
+
+	int getLabelWidth();
+
+	void setLabelWidth(int labelWidth);
+
+	int getLabelSpacing();
+
+	void setLabelSpacing(int labelSpacing);
+
+	FormElementLabelPosition getLabelPosition();
+
+	void setLabelPosition(FormElementLabelPosition labelPosition);
+
+	Align getLabelAlign();
+
+	void setLabelAlign(Align labelAlign);
+
+	int getEditorWidth();
+
+	void setEditorWidth(int editorWidth);
+
+	boolean isShowHint();
+
+	void setShowHint(boolean showHint);
+
+	int getHintWidth();
+
+	void setHintWidth(int hintWidth);
+
+	int getHintSpacing();
+
+	void setHintSpacing(int hintSpacing);
+
+	boolean isShowHintMessage();
+
+	void setShowHintMessage(boolean showHintMessage);
+
+	FormElementHintPosition getHintPosition();
+
+	void setHintPosition(FormElementHintPosition hintPosition);
+
+	boolean isReadOnly();
+
+	void setReadOnly(boolean readOnly);
+
+}

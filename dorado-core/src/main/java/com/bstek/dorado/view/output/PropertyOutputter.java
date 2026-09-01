@@ -1,0 +1,21 @@
+package com.bstek.dorado.view.output;
+
+/**
+ * 属性输出器。
+ *
+ */
+public interface PropertyOutputter {
+
+	/**
+	 * 判断传入的数值是否该属性的默认值。
+	 */
+	public boolean isEscapeValue(Object value);
+
+	/**
+	 * @param object
+	 * @param context
+	 * @throws Exception
+	 */
+	void output(Object object, OutputContext context) throws Exception;
+
+}
