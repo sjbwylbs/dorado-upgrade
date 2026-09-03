@@ -65,7 +65,7 @@
                         element.style[styleName] = styleValue;
                         if (VENDOR_PROPERTY.test(styleName)) {
                             styleName =
-                                vendor + styleName[0].toUpperCase() + styleName.substr(1);
+                                vendor + styleName[0].toUpperCase() + styleName.substring(1);
                             element.style[styleName] = styleValue;
                         }
                     }
@@ -99,7 +99,7 @@
                         element.style[styleName] = styleValue;
                         if (VENDOR_PROPERTY.test(styleName)) {
                             styleName =
-                                vendor + styleName[0].toUpperCase() + styleName.substr(1);
+                                vendor + styleName[0].toUpperCase() + styleName.substring(1);
                             element.style[styleName] = styleValue;
                         }
                     }
@@ -1072,7 +1072,8 @@
         }
         function getMouseEvent(event, eventType) {
             let t = event.type, props, ne, prop, ct, touch, i, j;
-            let oe = event, event = document.createEvent("MouseEvents");
+            let oe = event;
+            event = document.createEvent("MouseEvents");
             event.type = eventType;
             event.initEvent(eventType, true, true);
             props = $.event.props;

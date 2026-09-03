@@ -249,7 +249,7 @@ dorado.debug.initProcedures.push(function () {
             let logger = this, dom = $DomUtils.xCreate({ tagName: "div" }), logs = logger._logs, logDom;
             if (logs) {
                 for (let i = 0, j = logs.length; i < j; i++) {
-                    let log = logs[i], semicolonIndex = log.indexOf(":"), level = log.substring(0, semicolonIndex), msg = log.substr(semicolonIndex + 1);
+                    let log = logs[i], semicolonIndex = log.indexOf(":"), level = log.substring(0, semicolonIndex), msg = log.substring(semicolonIndex + 1);
                     logDom = $DomUtils.xCreate({
                         tagName: "div",
                         className: "log log-" + level,
@@ -1215,7 +1215,7 @@ dorado.debug.initProcedures.push(function () {
             $invokeSuper.call(this, arguments);
             ajaxResultPool.push(this);
             if (options.url) {
-                this.name = options.url.substr(options.url.lastIndexOf("/") + 1);
+                this.name = options.url.substring(options.url.lastIndexOf("/") + 1);
             }
             if (ajaxResultPoolChange) {
                 ajaxResultPoolChange.apply(null, []);

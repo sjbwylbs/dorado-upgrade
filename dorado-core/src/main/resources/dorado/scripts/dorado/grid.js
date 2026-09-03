@@ -1259,7 +1259,6 @@
                     let newSelection = (selectionMode === "multiRows") ? [data] : data;
                     innerGrid.replaceSelection.apply(innerGrid, checked ? [null, newSelection] : [newSelection, null]);
                     let selection = innerGrid._selection;
-                    let checked;
                     if (selection && selection instanceof Array) {
                         checked = (selection.indexOf(data) >= 0);
                     }
@@ -2187,12 +2186,10 @@
                 let wrapper = this._fixedInnerGridWrapper;
                 if (!wrapper) {
                     let wrapper = this._fixedInnerGridWrapper = document.createElement("DIV");
-                    with (wrapper.style) {
-                        overflowX = "visible";
-                        position = "absolute";
-                        left = top = 0;
-                        height = "100%";
-                    }
+                    wrapper.style.overflowX = "visible";
+                    wrapper.style.position = "absolute";
+                    wrapper.style.left = wrapper.style.top = 0;
+                    wrapper.style.height = "100%";
                     dom.appendChild(wrapper);
                 }
                 return wrapper;
@@ -2201,11 +2198,9 @@
                 let wrapper = this._innerGridWrapper;
                 if (!wrapper) {
                     let wrapper = this._innerGridWrapper = document.createElement("DIV");
-                    with (wrapper.style) {
-                        position = "absolute";
-                        left = top = 0;
-                        height = "100%";
-                    }
+                    wrapper.style.position = "absolute";
+                    wrapper.style.left = wrapper.style.top = 0;
+                    wrapper.style.height = "100%";
                     dom.appendChild(wrapper);
                 }
                 return wrapper;
@@ -2268,24 +2263,18 @@
                 this._domMode = domMode;
                 switch (domMode) {
                     case 0:
-                        with (dom.style) {
-                            overflowX = overflowY = "hidden";
-                        }
+                        dom.style.overflowX = dom.style.overflowY = "hidden";
                         if (divScroll) {
                             $fly(divScroll).hide();
                         }
                         if (fixedInnerGridWrapper) {
                             $fly(fixedInnerGridWrapper).hide();
                         }
-                        with (this._innerGridDom.style) {
-                            position = top = left = width = height = "";
-                        }
+                        this._innerGridDom.style.position = this._innerGridDom.style.top = this._innerGridDom.style.left = this._innerGridDom.style.width = this._innerGridDom.style.height = "";
                         innerGrid.render(dom);
                         break;
                     case 1:
-                        with (dom.style) {
-                            overflowX = overflowY = xScroll ? "hidden" : "visible";
-                        }
+                        dom.style.overflowX = dom.style.overflowY = xScroll ? "hidden" : "visible";
                         divScroll = getDivScroll.call(this);
                         $fly(divScroll).show();
                         if (fixedInnerGridWrapper) {
@@ -2294,16 +2283,12 @@
                         let innerGridWrapper = getInnerGridWrapper.call(this);
                         innerGridWrapper.style.overflowX = (this.hasRealWidth()) ? "hidden" : "visible";
                         innerGridWrapper.style.overflowY = (this.hasRealHeight()) ? "hidden" : "visible";
-                        with (this._innerGridDom.style) {
-                            position = top = left = width = "";
-                        }
+                        this._innerGridDom.style.position = this._innerGridDom.style.top = this._innerGridDom.style.left = this._innerGridDom.style.width = "";
                         innerGrid.render(innerGridWrapper);
                         break;
                     case 2:
-                        with (dom.style) {
-                            overflowX = "hidden";
-                            overflowY = yScroll ? "hidden" : "visible";
-                        }
+                        dom.style.overflowX = "hidden";
+                        dom.style.overflowY = yScroll ? "hidden" : "visible";
                         divScroll = getDivScroll.call(this);
                         $fly(divScroll).show();
                         fixedInnerGridWrapper = getFixedInnerGridWrapper.call(this);
@@ -2314,9 +2299,7 @@
                         innerGridWrapper = getInnerGridWrapper.call(this);
                         innerGridWrapper.style.overflowX = (this.hasRealWidth()) ? "hidden" : "visible";
                         innerGridWrapper.style.overflowY = (this.hasRealHeight()) ? "hidden" : "visible";
-                        with (this._innerGridDom.style) {
-                            position = top = left = width = "";
-                        }
+                        this._innerGridDom.style.position = this._innerGridDom.style.top = this._innerGridDom.style.left = this._innerGridDom.style.width = "";
                         innerGrid.render(innerGridWrapper);
                         break;
                 }
@@ -2358,9 +2341,7 @@
                 }
             }
             if (domMode === 2) {
-                with (fixedInnerGridWrapper.style) {
-                    overflowX = width = "";
-                }
+                fixedInnerGridWrapper.style.overflowX = fixedInnerGridWrapper.style.width = "";
                 fixedInnerGrid._scrollMode = this._scrollMode;
                 fixedInnerGrid._rowHeight = this._rowHeight;
                 fixedInnerGrid._highlightCurrentRow = this._highlightCurrentRow;
@@ -2373,27 +2354,21 @@
                 fixedInnerGrid.refreshDom(innerGrid.getDom());
                 let scrollLeft = ((dorado.Browser.msie && dorado.Browser.version < 7) ? fixedInnerGridWrapper.firstChild : fixedInnerGridWrapper).offsetWidth;
                 if (scrollLeft >= divScroll.clientWidth) {
-                    with (fixedInnerGridWrapper.style) {
-                        overflowX = "hidden";
-                        width = divScroll.clientWidth + "px";
-                    }
+                    fixedInnerGridWrapper.style.overflowX = "hidden";
+                    fixedInnerGridWrapper.style.width = divScroll.clientWidth + "px";
                     innerGridWrapper.style.width = 0;
                 }
                 else {
-                    with (innerGridWrapper.style) {
-                        overflowX = "hidden";
-                        width = (divScroll.clientWidth - scrollLeft) + "px";
-                    }
+                    innerGridWrapper.style.overflowX = "hidden";
+                    innerGridWrapper.style.width = (divScroll.clientWidth - scrollLeft) + "px";
                     innerGridWrapper.style.left = scrollLeft + "px";
                 }
             }
             else {
                 if (innerGridWrapper) {
-                    with (innerGridWrapper.style) {
-                        left = 0;
-                        overflowX = "hidden";
-                        width = divScroll.clientWidth + "px";
-                    }
+                    innerGridWrapper.style.left = 0;
+                    innerGridWrapper.style.overflowX = "hidden";
+                    innerGridWrapper.style.width = divScroll.clientWidth + "px";
                 }
             }
             if (domMode !== 2) {
@@ -2438,6 +2413,7 @@
                 return;
             }
             let totalWidth = 0, column;
+            let totalWeight = 0, assignedWidth;
             switch (this._realStretchColumnsMode) {
                 case "stretchableColumns":
                     let stretchableColumns = [];
@@ -2473,11 +2449,11 @@
                     }
                     break;
                 case "allColumns":
-                    let totalWeight = 0;
+                    totalWeight = 0;
                     for (let i = 0; i < columns.length; i++) {
                         totalWeight += (columns[i]._realWidth || 80) + WIDTH_ADJUST;
                     }
-                    let assignedWidth = 0;
+                    assignedWidth = 0;
                     for (let i = 0; i < columns.length; i++) {
                         let column = columns[i], weight = (parseInt(column._realWidth) || 80) + WIDTH_ADJUST;
                         if (i === columns.length - 1) {
@@ -2495,7 +2471,7 @@
                     totalWeight += assignedWidth;
                     break;
                 case "allResizeableColumns":
-                    let totalWeight = 0;
+                    totalWeight = 0;
                     for (let i = 0; i < columns.length; i++) {
                         let column = columns[i];
                         if (!column._resizeable) {
@@ -2503,7 +2479,7 @@
                         }
                         totalWeight += (column._realWidth || 80) + WIDTH_ADJUST;
                     }
-                    let assignedWidth = 0;
+                    assignedWidth = 0;
                     for (let i = 0; i < columns.length; i++) {
                         let column = columns[i];
                         if (!column._resizeable) {
@@ -2525,7 +2501,7 @@
                     totalWeight += assignedWidth;
                     break;
                 default:
-                    let totalWeight = 0;
+                    totalWeight = 0;
                     for (let i = 0; i < columns.length; i++) {
                         totalWeight += (columns[i]._realWidth || 80) + WIDTH_ADJUST;
                     }
@@ -3218,8 +3194,7 @@
             }
             return options;
         }, findItemDomByEvent: function (evt) {
-            let target = evt.srcElement || evt.target;
-            let target = target || evt;
+            let target = evt.srcElement || evt.target || evt;
             let innerTbody = this._innerGrid._dataTBody, fixedInnerTBody;
             if (this._domMode === 2) {
                 fixedInnerTBody = this._fixedInnerGrid._dataTBody;
@@ -3419,17 +3394,16 @@
                 }
                 delete grid._skipScrollCurrentIntoView;
                 if (grid._rowHeightInfos) {
-                    with (grid._rowHeightInfos) {
-                        let p = (dorado.Browser.mozilla || dorado.Browser.opera) ? "offsetHeight" : "clientHeight";
-                        if (this._beginBlankRow) {
-                            rows["beginBlankRow"] = (this._beginBlankRow.parentNode.style.display === "none") ? 0 : this._beginBlankRow.firstChild[p];
-                        }
-                        if (this._endBlankRow) {
-                            rows["endBlankRow"] = (this._endBlankRow.parentNode.style.display === "none") ? 0 : this._endBlankRow.firstChild[p];
-                        }
-                        rowHeightAverage = this._rowHeightAverage;
-                        startIndex = this.startIndex;
+                    let rowHeightInfos = grid._rowHeightInfos;
+                    let p = (dorado.Browser.mozilla || dorado.Browser.opera) ? "offsetHeight" : "clientHeight";
+                    if (this._beginBlankRow) {
+                        rowHeightInfos.rows["beginBlankRow"] = (this._beginBlankRow.parentNode.style.display === "none") ? 0 : this._beginBlankRow.firstChild[p];
                     }
+                    if (this._endBlankRow) {
+                        rowHeightInfos.rows["endBlankRow"] = (this._endBlankRow.parentNode.style.display === "none") ? 0 : this._endBlankRow.firstChild[p];
+                    }
+                    rowHeightInfos.rowHeightAverage = this._rowHeightAverage;
+                    rowHeightInfos.startIndex = this.startIndex;
                 }
                 if (grid._rowHeightInfos) {
                     grid.syncroRowHeights(this._container);
@@ -3784,65 +3758,62 @@
         }, doOnKeyDown: function () {
             return true;
         }, syncroRowHeights: function (scrollInfo) {
-            with (this.grid._rowHeightInfos) {
-                if (this.grid._dynaRowHeight) {
-                    for (let i = 0; i < unmatched.length; i++) {
-                        let row = this._itemDomMap[unmatched[i]];
-                        if (row) {
-                            let h = rows[unmatched[i]];
-                            if (dorado.Browser.msie && dorado.Browser.version === 8) {
-                                row.style.height = h + "px";
-                                $fly(row).toggleClass("fix-row-bug");
-                            }
-                            else {
-                                row.style.height = h + "px";
-                            }
-                        }
-                    }
-                    unmatched = [];
-                    if (this._itemDomCount > visibleRows) {
-                        for (let itemId in unfound) {
-                            if (unfound.hasOwnProperty(itemId)) {
-                                let row = this._itemDomMap[itemId];
-                                if (row) {
-                                    this.removeItemDom(row);
-                                }
-                            }
-                        }
-                        unfound = {};
-                    }
-                }
-                if (this._beginBlankRow) {
-                    with (this._beginBlankRow) {
-                        let beginBlankRow = rows["beginBlankRow"];
-                        if (beginBlankRow) {
-                            firstChild.colSpan = this._cols;
-                            firstChild.style.height = beginBlankRow + "px";
-                            parentNode.style.display = "";
+            let rowHeightInfos = this.grid._rowHeightInfos;
+            if (this.grid._dynaRowHeight) {
+                for (let i = 0; i < rowHeightInfos.unmatched.length; i++) {
+                    let row = this._itemDomMap[rowHeightInfos.unmatched[i]];
+                    if (row) {
+                        let h = rowHeightInfos.rows[rowHeightInfos.unmatched[i]];
+                        if (dorado.Browser.msie && dorado.Browser.version === 8) {
+                            row.style.height = h + "px";
+                            $fly(row).toggleClass("fix-row-bug");
                         }
                         else {
-                            parentNode.style.display = "none";
+                            row.style.height = h + "px";
                         }
                     }
                 }
-                if (this._endBlankRow) {
-                    with (this._endBlankRow) {
-                        let endBlankRow = rows["endBlankRow"];
-                        if (endBlankRow) {
-                            firstChild.colSpan = this._cols;
-                            firstChild.style.height = endBlankRow + "px";
-                            parentNode.style.display = "";
-                        }
-                        else {
-                            parentNode.style.display = "none";
+                rowHeightInfos.unmatched = [];
+                if (this._itemDomCount > rowHeightInfos.visibleRows) {
+                    for (let itemId in rowHeightInfos.unfound) {
+                        if (rowHeightInfos.unfound.hasOwnProperty(itemId)) {
+                            let row = this._itemDomMap[itemId];
+                            if (row) {
+                                this.removeItemDom(row);
+                            }
                         }
                     }
+                    rowHeightInfos.unfound = {};
                 }
-                this._itemDomCount = visibleRows;
-                this._rowHeightAverage = rowHeightAverage;
-                this.startIndex = startIndex;
-                this._container.scrollTop = this._scrollTop = scrollInfo.scrollTop;
             }
+            if (this._beginBlankRow) {
+                let beginBlankRowEl = this._beginBlankRow;
+                let beginBlankRow = rowHeightInfos.rows["beginBlankRow"];
+                if (beginBlankRow) {
+                    beginBlankRowEl.firstChild.colSpan = this._cols;
+                    beginBlankRowEl.firstChild.style.height = beginBlankRow + "px";
+                    beginBlankRowEl.parentNode.style.display = "";
+                }
+                else {
+                    beginBlankRowEl.parentNode.style.display = "none";
+                }
+            }
+            if (this._endBlankRow) {
+                let endBlankRowEl = this._endBlankRow;
+                let endBlankRow = rowHeightInfos.rows["endBlankRow"];
+                if (endBlankRow) {
+                    endBlankRowEl.firstChild.colSpan = this._cols;
+                    endBlankRowEl.firstChild.style.height = endBlankRow + "px";
+                    endBlankRowEl.parentNode.style.display = "";
+                }
+                else {
+                    endBlankRowEl.parentNode.style.display = "none";
+                }
+            }
+            this._itemDomCount = rowHeightInfos.visibleRows;
+            this._rowHeightAverage = rowHeightInfos.rowHeightAverage;
+            this.startIndex = rowHeightInfos.startIndex;
+            this._container.scrollTop = this._scrollTop = scrollInfo.scrollTop;
         }, syncroRowHeight: function (itemId) {
             let row = this._itemDomMap[itemId];
             if (!row) {
@@ -3906,15 +3877,13 @@
                     let gridDom = grid.getDom();
                     if (gridDom.scrollWidth > gridDom.clientWidth || gridDom.scrollHeight > gridDom.clientHeight) {
                         let offset1 = $fly(gridDom).offset(), offset2 = $fly(cell).offset();
-                        with (gridDom) {
-                            let l = offset2.left - offset1.left;
-                            if ((l + cell.offsetWidth) > clientWidth) {
-                                scrollLeft -= clientWidth - (l + cell.offsetWidth);
-                            }
-                            else {
-                                if (l < 0) {
-                                    scrollLeft += l;
-                                }
+                        let l = offset2.left - offset1.left;
+                        if ((l + cell.offsetWidth) > gridDom.clientWidth) {
+                            gridDom.scrollLeft -= gridDom.clientWidth - (l + cell.offsetWidth);
+                        }
+                        else {
+                            if (l < 0) {
+                                gridDom.scrollLeft += l;
                             }
                         }
                     }
@@ -3923,17 +3892,15 @@
                             let container = this.getDom().parentNode;
                             if (container.scrollWidth > container.clientWidth) {
                                 let scrollPos = -1, ratio;
-                                with (container) {
-                                    if ((cell.offsetLeft + cell.offsetWidth) > (scrollLeft + clientWidth)) {
-                                        scrollPos = cell.offsetLeft + cell.offsetWidth - clientWidth;
-                                    }
-                                    else {
-                                        if (cell.offsetLeft < scrollLeft) {
-                                            scrollPos = cell.offsetLeft;
-                                        }
-                                    }
-                                    ratio = scrollPos / (scrollWidth - clientWidth);
+                                if ((cell.offsetLeft + cell.offsetWidth) > (container.scrollLeft + container.clientWidth)) {
+                                    scrollPos = cell.offsetLeft + cell.offsetWidth - container.clientWidth;
                                 }
+                                else {
+                                    if (cell.offsetLeft < container.scrollLeft) {
+                                        scrollPos = cell.offsetLeft;
+                                    }
+                                }
+                                ratio = scrollPos / (container.scrollWidth - container.clientWidth);
                                 if (scrollPos >= 0) {
                                     let divScroll = grid._divScroll;
                                     divScroll.scrollLeft = ratio * (divScroll.scrollWidth - divScroll.clientWidth);
@@ -4329,7 +4296,10 @@
             try {
                 criterion.value = JSON.parse("\"" + criterion.value.replace(/\\/g, "\\\\").replace(/"/g, "\\\"") + "\"");
             }
-            catch (e) { /* keep original value if JSON.parse fails */ }
+            catch (e) { /* keep original value if JSON.parse fails */
+                console.log(e);
+                console.log(`Invalid criterion value: ${criterion.value}`);
+            }
         }
         let pd = column._propertyDef;
         if (pd) {
@@ -4439,7 +4409,7 @@
     };
     dorado.widget.grid.CriterionDropDown = $extend(dorado.widget.DropDown, { $className: "dorado.widget.grid.CriterionDropDown", ATTRIBUTES: { maxWidth: { defaultValue: 330 }, supportsMultiCriterions: { defaultValue: true }, supportsJunction: { defaultValue: true }, avialableOperators: {}, criterion: { defaultValue: [], setter: function (criterion) {
                     criterion = criterion || {};
-                    let criterion = this._criterion = dorado.Core.clone(criterion, true);
+                    criterion = this._criterion = dorado.Core.clone(criterion, true);
                     if (!criterion.criterions) {
                         criterion.criterions = [];
                     }
@@ -4689,6 +4659,7 @@
         }, _doOnKeyDown: function (evt) {
             let retValue = true;
             let items = this._itemModel.getItems();
+            let index;
             switch (evt.keyCode) {
                 case 36:
                     if (evt.ctrlKey) {
@@ -4708,14 +4679,14 @@
                     }
                     break;
                 case 38:
-                    let index = this.get("currentIndex");
+                    index = this.get("currentIndex");
                     if (index > 0) {
                         this.set("currentIndex", index - 1);
                     }
                     retValue = false;
                     break;
                 case 40:
-                    let index = this.get("currentIndex");
+                    index = this.get("currentIndex");
                     if (index < this._itemModel.getItemCount() - 1) {
                         this.set("currentIndex", index + 1);
                     }
@@ -5295,6 +5266,7 @@
             }
             $invokeSuper.call(this, arguments);
         }, processDataSetMessage: function (messageCode, arg, data) {
+            let items;
             switch (messageCode) {
                 case dorado.widget.DataSet.MESSAGE_REFRESH:
                     if (this._itemModel.groups) {
@@ -5326,7 +5298,7 @@
                     }
                     break;
                 case dorado.widget.DataSet.MESSAGE_DATA_CHANGED:
-                    let items = this._itemModel.getOriginItems();
+                    items = this._itemModel.getOriginItems();
                     if (!items || items._observer !== this._dataSet || arg.entity.parent !== items) {
                         this.refresh(true);
                     }
@@ -5373,7 +5345,7 @@
                     }
                     break;
                 case dorado.widget.DataSet.MESSAGE_REFRESH_ENTITY:
-                    let items = this._itemModel.getOriginItems();
+                    items = this._itemModel.getOriginItems();
                     if (!items || items._observer !== this._dataSet || arg.entity.parent !== items) {
                         this.refresh(true);
                     }

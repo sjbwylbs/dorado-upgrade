@@ -1347,8 +1347,8 @@ dorado.DataPipe.MONITOR = {
 				return dataType;
 			},
 			get: function(name: any, loadMode: any) {
-				let id = name,
-					name = dorado.DataUtil.extractNameFromId(id);
+				let id = name;
+				name = dorado.DataUtil.extractNameFromId(id);
 				let dataType = this._get(name);
 				if (dataType === DataTypeRepository.UNLOAD_DATATYPE) {
 					let subId = dorado.DataType.getSubName(id);
@@ -1388,8 +1388,8 @@ dorado.DataPipe.MONITOR = {
 				return dataType;
 			},
 			getAsync: function(name: any, callback: any, loadMode: any) {
-				let id = name,
-					name = dorado.DataUtil.extractNameFromId(id);
+				let id = name;
+				name = dorado.DataUtil.extractNameFromId(id);
 				let dataType = this._get(name);
 				if (dataType === DataTypeRepository.UNLOAD_DATATYPE) {
 					let subId = dorado.DataType.getSubName(id);
@@ -5990,8 +5990,8 @@ dorado.validator.RangeValidator = $extend(dorado.validator.BaseValidator, {
 		let invalidMin,
 			invalidMax,
 			message = "",
-			subMessage = "",
-			data = typeof data === "number" ? data : parseFloat(data);
+			subMessage = "";
+		data = typeof data === "number" ? data : parseFloat(data);
 		if (this._minValueValidateMode !== "ignore") {
 			if (
 				data === this._minValue &&

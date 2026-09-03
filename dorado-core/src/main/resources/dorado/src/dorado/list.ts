@@ -45,8 +45,8 @@
         });
         return table;
     }, findItemDomByEvent:function (evt: any) {
-        let target = evt.srcElement || evt.target;
-        let target = target || evt, tbody = this._dataTBody;
+        let target = evt.srcElement || evt.target || evt,
+            tbody = this._dataTBody;
         return $DomUtils.findParent(target, function (parentNode: any) {
             return parentNode.parentNode === tbody;
         });
@@ -421,25 +421,21 @@
             let startIndex = this.startIndex;
             let cols = this._cols || 1;
             let rowHeightAverage = (itemDomCount > 0) ? viewPortHeight / itemDomCount : this._rowHeight;
-            with (beginBlankRow) {
-                if (startIndex > 0) {
-                    firstChild.colSpan = cols;
-                    firstChild.style.height = Math.round(startIndex * rowHeightAverage) + "px";
-                    parentNode.style.display = "";
-                } else {
-                    parentNode.style.display = "none";
-                    firstChild.style.height = "0px";
-                }
+            if (startIndex > 0) {
+                beginBlankRow.firstChild.colSpan = cols;
+                beginBlankRow.firstChild.style.height = Math.round(startIndex * rowHeightAverage) + "px";
+                beginBlankRow.parentNode.style.display = "";
+            } else {
+                beginBlankRow.parentNode.style.display = "none";
+                beginBlankRow.firstChild.style.height = "0px";
             }
-            with (endBlankRow) {
-                if ((itemDomCount + startIndex) < itemCount) {
-                    firstChild.colSpan = cols;
-                    firstChild.style.height = Math.round((itemCount - itemDomCount - startIndex) * rowHeightAverage) + "px";
-                    parentNode.style.display = "";
-                } else {
-                    parentNode.style.display = "none";
-                    firstChild.style.height = "0px";
-                }
+            if ((itemDomCount + startIndex) < itemCount) {
+                endBlankRow.firstChild.colSpan = cols;
+                endBlankRow.firstChild.style.height = Math.round((itemCount - itemDomCount - startIndex) * rowHeightAverage) + "px";
+                endBlankRow.parentNode.style.display = "";
+            } else {
+                endBlankRow.parentNode.style.display = "none";
+                endBlankRow.firstChild.style.height = "0px";
             }
             let st;
             if (this.startIndex >= itemModel.getStartIndex()) {
@@ -571,21 +567,20 @@
         }
         delete this._ignoreItemTimestamp;
     }, scrollItemDomIntoView:function (row: any) {
-        with (this._container) {
-            let st = -1;
-            if ((row.offsetTop + row.offsetHeight) > (scrollTop + clientHeight)) {
-                st = row.offsetTop + row.offsetHeight - clientHeight;
-            } else {
-                if (row.offsetTop < scrollTop) {
-                    st = row.offsetTop;
-                }
+        let container = this._container;
+        let st = -1;
+        if ((row.offsetTop + row.offsetHeight) > (container.scrollTop + container.clientHeight)) {
+            st = row.offsetTop + row.offsetHeight - container.clientHeight;
+        } else {
+            if (row.offsetTop < container.scrollTop) {
+                st = row.offsetTop;
             }
-            if (st >= 0) {
-                if (this._scrollMode !== "lazyRender") {
-                    this._scrollTop = st;
-                }
-                scrollTop = st;
+        }
+        if (st >= 0) {
+            if (this._scrollMode !== "lazyRender") {
+                this._scrollTop = st;
             }
+            container.scrollTop = st;
         }
     }, scrollCurrentIntoView:function () {
         let currentItemId = this.getRealCurrentItemId();
@@ -984,6 +979,7 @@ dorado.widget.DataListBox = $extend([dorado.widget.AbstractListBox, dorado.widge
     }
     if (this._scrollMode !== "viewport") {
         let row;
+        let refRow, inserted;
         switch (mode) {
           case "begin":
             row = this.createItemDom(entity);
@@ -991,7 +987,7 @@ dorado.widget.DataListBox = $extend([dorado.widget.AbstractListBox, dorado.widge
             break;
           case "before":
             row = this.createItemDom(entity);
-            let refRow = itemDomMap[itemModel.getItemId(refEntity)], inserted;
+            refRow = itemDomMap[itemModel.getItemId(refEntity)];
             if (!refRow) {
                 refRow = findBackNearestRow.call(this, refEntity);
                 if (!refRow) {
@@ -1005,7 +1001,7 @@ dorado.widget.DataListBox = $extend([dorado.widget.AbstractListBox, dorado.widge
             break;
           case "after":
             row = this.createItemDom(entity);
-            let refRow = itemDomMap[itemModel.getItemId(refEntity)], inserted;
+            refRow = itemDomMap[itemModel.getItemId(refEntity)];
             if (!refRow) {
                 refRow = findFontNearestRow.call(this, refEntity);
                 if (!refRow) {

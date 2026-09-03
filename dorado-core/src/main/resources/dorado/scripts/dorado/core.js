@@ -743,7 +743,8 @@ dorado.Core = { VERSION: "8.0.0", newId: function () {
             return b;
         }, clone: function (object, options) {
             if (typeof object === "object") {
-                let objClone, options = options || {};
+                let objClone;
+                options = options || {};
                 if (options.onCreate) {
                     objClone = new options.onCreate(object);
                 }
@@ -3663,8 +3664,8 @@ window.$map = function (obj) {
                             $el.data(attrValue);
                             break;
                         default:
-                            if (attrName.substr(0, 2) === "on") {
-                                let event = attrName.substr(2);
+                            if (attrName.substring(0, 2) === "on") {
+                                let event = attrName.substring(2);
                                 if (typeof attrValue !== "function") {
                                     // CSP 兼容：不支持字符串形式的事件处理器
                                     console.warn("CSP-compliant mode: String event handlers are not supported. Please provide a function object.");
@@ -4141,10 +4142,9 @@ window.$map = function (obj) {
         let childNodes = container.childNodes;
         for (let i = 0, j = childNodes.length; i < j; i++) {
             let child = childNodes[i];
-            with (child.style) {
-                if (display !== "none" && (position === "" || position === "static")) {
-                    return child;
-                }
+            let style = child.style;
+            if (style.display !== "none" && (style.position === "" || style.position === "static")) {
+                return child;
             }
         }
         return null;
@@ -4257,7 +4257,7 @@ jQuery.fn.unshadow = function (options) {
         return this.edgeTop(includeMargin) + this.edgeBottom(includeMargin);
     };
     $.fn.addClassOnHover = function (cls, clsOwner, fn) {
-        let clsOwner = clsOwner || this;
+        clsOwner = clsOwner || this;
         this.hover(function () {
             if ($DomUtils.isDragging()) {
                 return;
@@ -4272,7 +4272,7 @@ jQuery.fn.unshadow = function (options) {
         return this;
     };
     $.fn.addClassOnFocus = function (cls, clsOwner, fn) {
-        let clsOwner = clsOwner || this;
+        clsOwner = clsOwner || this;
         this.focus(function () {
             if (typeof fn === "function" && !fn.call(this)) {
                 return;
@@ -4285,7 +4285,7 @@ jQuery.fn.unshadow = function (options) {
         return this;
     };
     $.fn.addClassOnClick = function (cls, clsOwner, fn) {
-        let clsOwner = clsOwner || this;
+        clsOwner = clsOwner || this;
         this.mousedown(function () {
             if (typeof fn === "function" && !fn.call(this)) {
                 return;
@@ -5355,7 +5355,7 @@ dorado.RenderableElement = $extend(dorado.AttributeSupport, { $className: "dorad
             if (typeof this._style === "string") {
                 let map = {};
                 jQuery.each(style.split(";"), function (i, section) {
-                    let i = section.indexOf(":");
+                    i = section.indexOf(":");
                     if (i > 0) {
                         let attr = jQuery.trim(section.substring(0, i));
                         let value = jQuery.trim(section.substring(i + 1));
@@ -6514,7 +6514,8 @@ dorado.util.TaskGroupPanel = $extend(dorado.RenderableElement, { $className: "do
             this.id = dorado.Core.newId();
             this.container = container;
             this.options = options || {};
-            let $container = $(container), options = this.options;
+            let $container = $(container);
+            options = this.options;
             if (options.listenSize || options.listenContainerSize || options.listenContentSize) {
                 addListenModernScroller(this);
             }
@@ -6528,8 +6529,8 @@ dorado.util.TaskGroupPanel = $extend(dorado.RenderableElement, { $className: "do
         }, setScrollLeft: dorado._NULL_FUNCTION, setScrollTop: dorado._NULL_FUNCTION, scrollToElement: dorado._NULL_FUNCTION });
     dorado.util.Dom.DesktopModernScroller = $extend(ModernScroller, { constructor: function (container, options) {
             $invokeSuper.call(this, arguments);
-            let options = this.options;
-            $container = $(container), parentDom = container.parentNode, $parentDom = $(parentDom);
+            options = this.options;
+            let $container = $(container), parentDom = container.parentNode, $parentDom = $(parentDom);
             let overflowX = $container.css("overflowX"), overflowY = $container.css("overflowY");
             let width = $container.css("width"), height = $container.css("height");
             let xScroller, yScroller;
@@ -6659,7 +6660,8 @@ dorado.util.TaskGroupPanel = $extend(dorado.RenderableElement, { $className: "do
                 let arg = { scrollLeft: this.x * -1, scrollTop: this.y * -1, scrollWidth: container.scrollWidth, scrollHeight: container.scrollHeight, clientWidth: container.clientWidth, clientHeight: container.clientHeight };
                 $container.trigger("modernScrolling", arg);
             };
-            let modernScroller = this, options = modernScroller.options = dorado.Object.apply({ scrollbarClass: "iscroll", hideScrollbar: true, fadeScrollbar: true, onScrolling: onScrolling, onScrollMove: onScrolling, onScrollEnd: function () {
+            let modernScroller = this;
+            options = modernScroller.options = dorado.Object.apply({ scrollbarClass: "iscroll", hideScrollbar: true, fadeScrollbar: true, onScrolling: onScrolling, onScrollMove: onScrolling, onScrollEnd: function () {
                     let arg = { scrollLeft: this.x * -1, scrollTop: this.y * -1, scrollWidth: container.scrollWidth, scrollHeight: container.scrollHeight, clientWidth: container.clientWidth, clientHeight: container.clientHeight };
                     $container.trigger("modernScrolled", arg);
                 } }, options, false);
@@ -6671,7 +6673,7 @@ dorado.util.TaskGroupPanel = $extend(dorado.RenderableElement, { $className: "do
                 }
             }, 0);
             $invokeSuper.call(modernScroller, [container, modernScroller.options]);
-            let $container = $(container);
+            $container = $(container);
             $container.bind("scroll", function (evt) {
                 modernScroller.update();
             }).resize(function (evt) {

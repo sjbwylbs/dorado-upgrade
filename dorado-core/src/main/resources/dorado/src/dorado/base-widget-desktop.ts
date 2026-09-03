@@ -9380,18 +9380,19 @@ dorado.widget.FloatPanel = $extend(
 			EVENTS: { onSubControlRefresh: {}, onSubControlAction: {} },
 			filterDataSetMessage: function(messageCode: any, arg: any, data: any) {
 				let b = true;
+				let entities;
 				switch (messageCode) {
 					case dorado.widget.DataSet.MESSAGE_CURRENT_CHANGED:
 					case dorado.widget.DataSet.MESSAGE_REFRESH_ENTITY:
 					case dorado.widget.DataSet.MESSAGE_ENTITY_STATE_CHANGED:
-						let entities = this.getBindingData();
+						entities = this.getBindingData();
 						b =
 							!this._entities ||
 							entities === this._entities ||
 							dorado.DataUtil.isOwnerOf(entities, arg.entityList);
 						break;
 					case dorado.widget.DataSet.MESSAGE_DATA_CHANGED:
-						let entities = this.getBindingData();
+						entities = this.getBindingData();
 						b =
 							!this._entities ||
 							entities === this._entities ||
@@ -9730,7 +9731,6 @@ dorado.widget.FloatPanel = $extend(
 					let itemCode = itemCodes[i],
 						index = itemCode.indexOf("/");
 					let code,
-						options,
 						showIcon = true,
 						showCaption,
 						options = null;
@@ -9889,7 +9889,7 @@ dorado.widget.FloatPanel = $extend(
 			},
 		},
 		createDom: function(dom: any) {
-			let dom = document.createElement("SPAN");
+			dom = document.createElement("SPAN");
 			let gotoPage = this;
 			this._labelPrefix = $DomUtils.xCreate({
 				tagName: "SPAN",
@@ -9969,7 +9969,7 @@ dorado.widget.FloatPanel = $extend(
 			},
 		},
 		createDom: function(dom: any) {
-			let dom = document.createElement("SPAN");
+			dom = document.createElement("SPAN");
 			let pageSizeControl = this;
 			this._labelPrefix = $DomUtils.xCreate({
 				tagName: "SPAN",

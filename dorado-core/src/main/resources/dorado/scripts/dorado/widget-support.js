@@ -931,7 +931,7 @@ dorado.widget.Component = $extend(dorado.widget.ViewElement, {
         doGetData: function (path, options, callback) {
             function pollEvaluate(data, dataPath, option, callback) {
                 let totalAsyncExecutionTimes = dorado.DataPipe.MONITOR.asyncExecutionTimes;
-                let data = dataPath.evaluate(data, options);
+                data = dataPath.evaluate(data, options);
                 if (dorado.DataPipe.MONITOR.asyncExecutionTimes -
                     totalAsyncExecutionTimes >
                     0) {
@@ -2517,7 +2517,7 @@ dorado.widget.PropertyDataControl = $extend(dorado.widget.DataControl, {
             if (!b) {
                 return b;
             }
-            let b = this.doOnKeyDown ? this.doOnKeyDown(evt) : true;
+            b = this.doOnKeyDown ? this.doOnKeyDown(evt) : true;
             if (!b) {
                 return b;
             }
@@ -2543,7 +2543,7 @@ dorado.widget.PropertyDataControl = $extend(dorado.widget.DataControl, {
             if (!b) {
                 return b;
             }
-            let b = this.doOnKeyPress ? this.doOnKeyPress(evt) : true;
+            b = this.doOnKeyPress ? this.doOnKeyPress(evt) : true;
             if (!b) {
                 return b;
             }
@@ -2816,7 +2816,7 @@ dorado.widget.PropertyDataControl = $extend(dorado.widget.DataControl, {
         return control;
     }
     dorado.widget.findNextFocusableControl = function (from) {
-        let from = from || dorado.widget.getFocusedControl();
+        from = from || dorado.widget.getFocusedControl();
         while (from) {
             let control = findNext(from);
             if (control) {
@@ -2838,7 +2838,7 @@ dorado.widget.PropertyDataControl = $extend(dorado.widget.DataControl, {
         return findFocusableControl($topView);
     };
     dorado.widget.findPreviousFocusableControl = function (control) {
-        let from = from || dorado.widget.getFocusedControl(), control;
+        let from = dorado.widget.getFocusedControl();
         control = findFocusableControl(from, { from: from, reverse: true });
         if (control) {
             return control;

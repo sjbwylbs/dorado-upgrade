@@ -1039,7 +1039,7 @@
                     color.hasOwnProperty("b")) {
                     rgb = rgbToRgb(color.r, color.g, color.b);
                     ok = true;
-                    format = String(color.r).substr(-1) === "%" ? "prgb" : "rgb";
+                    format = String(color.r).substring(-1) === "%" ? "prgb" : "rgb";
                 }
                 else {
                     if (color.hasOwnProperty("h") &&

@@ -13,7 +13,7 @@
     "sourceMap": false,
     "outDir": "./scripts",
     "rootDir": "./src",
-    "strict": false,
+    "strict": true,
     "noImplicitAny": false,
     "strictNullChecks": false,
     "esModuleInterop": true,
@@ -23,8 +23,8 @@
     "isolatedModules": false,
     "moduleResolution": "node",
     "noEmit": false,
-    "noEmitOnError": false,
-    "ignoreDeprecations": "5.0",
+    "noEmitOnError": true,
+    "ignoreDeprecations": "6.0",
     "noImplicitThis": false,
     "noImplicitReturns": false,
     "noUnusedLocals": false,
@@ -32,7 +32,7 @@
     "noFallthroughCasesInSwitch": false
   },
   "include": [
-    "src/**/*.ts"
+    "src/dorado/**/*.ts"
   ],
   "exclude": [
     "node_modules",

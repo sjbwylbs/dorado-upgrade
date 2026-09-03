@@ -1646,7 +1646,7 @@
             if (menuContentHeight > dom.offsetHeight) {
                 menu.handleOverflow();
             }
-            let items = menu._items || {}, visibleItemCount = 0;
+            let visibleItemCount = 0;
             for (let i = 0, j = items.size; i < j; i++) {
                 let item = items.get(i);
                 if (item._visible === false) {
@@ -8487,18 +8487,19 @@ dorado.widget.FloatPanel = $extend([dorado.widget.Panel, dorado.widget.FloatCont
         EVENTS: { onSubControlRefresh: {}, onSubControlAction: {} },
         filterDataSetMessage: function (messageCode, arg, data) {
             let b = true;
+            let entities;
             switch (messageCode) {
                 case dorado.widget.DataSet.MESSAGE_CURRENT_CHANGED:
                 case dorado.widget.DataSet.MESSAGE_REFRESH_ENTITY:
                 case dorado.widget.DataSet.MESSAGE_ENTITY_STATE_CHANGED:
-                    let entities = this.getBindingData();
+                    entities = this.getBindingData();
                     b =
                         !this._entities ||
                             entities === this._entities ||
                             dorado.DataUtil.isOwnerOf(entities, arg.entityList);
                     break;
                 case dorado.widget.DataSet.MESSAGE_DATA_CHANGED:
-                    let entities = this.getBindingData();
+                    entities = this.getBindingData();
                     b =
                         !this._entities ||
                             entities === this._entities ||
@@ -8816,7 +8817,7 @@ dorado.widget.FloatPanel = $extend([dorado.widget.Panel, dorado.widget.FloatCont
             let compiledItemCodes = (this._compiledItemCodes = []), itemCodeExpression = "";
             for (let i = 0; i < itemCodes.length; i++) {
                 let itemCode = itemCodes[i], index = itemCode.indexOf("/");
-                let code, options, showIcon = true, showCaption, options = null;
+                let code, showIcon = true, showCaption, options = null;
                 if (index > 0) {
                     code = itemCode.substring(0, index);
                     options = itemCode.substring(index + 1);
@@ -8955,7 +8956,7 @@ dorado.widget.FloatPanel = $extend([dorado.widget.Panel, dorado.widget.FloatCont
             },
         },
         createDom: function (dom) {
-            let dom = document.createElement("SPAN");
+            dom = document.createElement("SPAN");
             let gotoPage = this;
             this._labelPrefix = $DomUtils.xCreate({
                 tagName: "SPAN",
@@ -9021,7 +9022,7 @@ dorado.widget.FloatPanel = $extend([dorado.widget.Panel, dorado.widget.FloatCont
             },
         },
         createDom: function (dom) {
-            let dom = document.createElement("SPAN");
+            dom = document.createElement("SPAN");
             let pageSizeControl = this;
             this._labelPrefix = $DomUtils.xCreate({
                 tagName: "SPAN",

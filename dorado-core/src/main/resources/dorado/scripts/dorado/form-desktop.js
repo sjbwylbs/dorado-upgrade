@@ -2455,6 +2455,7 @@ dorado.widget.CustomDropDown = $extend(dorado.widget.DropDown, {
         },
         doOnKeyDown: function (event) {
             let spinner = this, retval = true;
+            let text, value;
             switch (event.keyCode) {
                 case 38:
                     if (!spinner._realReadOnly) {
@@ -2478,7 +2479,8 @@ dorado.widget.CustomDropDown = $extend(dorado.widget.DropDown, {
                 case 46:
                     break;
                 case 187:
-                    let text = this.get("text"), value = text ? parseInt(text) : null;
+                    text = this.get("text");
+                    value = text ? parseInt(text) : null;
                     if (value) {
                         value = Math.abs(value);
                         spinner._textDom.value = value;
@@ -2486,7 +2488,8 @@ dorado.widget.CustomDropDown = $extend(dorado.widget.DropDown, {
                     retval = false;
                     break;
                 case 189:
-                    let text = this.get("text"), value = text ? parseInt(text) : null;
+                    text = this.get("text");
+                    value = text ? parseInt(text) : null;
                     if (value) {
                         value = 0 - Math.abs(value);
                         spinner._textDom.value = value;
@@ -3107,7 +3110,7 @@ dorado.widget.CustomDropDown = $extend(dorado.widget.DropDown, {
                     return this._values;
                 },
                 setter: function (v) {
-                    let v = v || [];
+                    v = v || [];
                     if (typeof v === "string") {
                         v = v.split(",");
                     }

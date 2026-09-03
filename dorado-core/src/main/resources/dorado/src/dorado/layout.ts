@@ -630,7 +630,7 @@
                     $DomUtils.getUndisplayContainer().appendChild(control._dom);
                 }
             } else {
-                let w, div, isNewCell = false;
+                let div, isNewCell = false;
                 if (!cell) {
                     cell = document.createElement("TD");
                     isNewCell = true;

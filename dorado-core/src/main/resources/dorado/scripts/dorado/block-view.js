@@ -1000,8 +1000,7 @@
             }
         },
         findItemDomByEvent: function (evt) {
-            let target = evt.srcElement || evt.target;
-            let target = target || evt, container = this._container;
+            let target = evt.srcElement || evt.target || evt, container = this._container;
             return $DomUtils.findParent(target, function (parentNode) {
                 return parentNode.parentNode === container;
             });
@@ -1441,18 +1440,23 @@ dorado.widget.DataBlockView = $extend([dorado.widget.AbstractBlockView, dorado.w
         let mode = arg.insertMode;
         let refEntity = arg.refEntity;
         let container = this._container;
+        let refBlockDom, index;
         switch (mode) {
             case "begin":
                 this.refreshItemDom(container, entity, 0);
                 this._arrangeBlockDoms(1, 1);
                 break;
             case "before":
-                let refBlockDom = this._itemDomMap[this._itemModel.getItemId(refEntity)], index = refBlockDom.itemIndex;
+                refBlockDom =
+                    this._itemDomMap[this._itemModel.getItemId(refEntity)];
+                index = refBlockDom.itemIndex;
                 this._arrangeBlockDoms(index, 1);
                 this.refreshItemDom(container, entity, index);
                 break;
             case "after":
-                let refBlockDom = this._itemDomMap[this._itemModel.getItemId(refEntity)], index = refBlockDom.itemIndex;
+                refBlockDom =
+                    this._itemDomMap[this._itemModel.getItemId(refEntity)];
+                index = refBlockDom.itemIndex;
                 this._arrangeBlockDoms(index + 1, 1);
                 this.refreshItemDom(container, entity, index + 1);
                 break;

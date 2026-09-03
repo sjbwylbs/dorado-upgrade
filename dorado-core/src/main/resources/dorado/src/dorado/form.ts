@@ -3894,13 +3894,13 @@ dorado.widget.DropDown.findDropDown = function(control: any) {
 				}
 			},
 			refreshDom: function(dom: any) {
-				let height = this._height || this._realHeight;
-				$invokeSuper.call(this, arguments);
-				let dom = this._dom,
-					labelEl = this._labelEl,
-					contentEl = this._contentEl,
-					editorEl = this._editorEl,
-					hintEl = this._hintEl;
+			let height = this._height || this._realHeight;
+			$invokeSuper.call(this, arguments);
+			dom = this._dom;
+			let labelEl = this._labelEl,
+				contentEl = this._contentEl,
+				editorEl = this._editorEl,
+				hintEl = this._hintEl;
 				let heightDefined =
 					this.getAttributeWatcher().getWritingTimes("height");
 				if (labelEl) {
