@@ -155,9 +155,9 @@ String.prototype.expandExponential = function() {
 								.abs(c)) >= x ? c - x + l : 0), z = (new Array(
 								c + 1)).join("0"), r = n + f;
 						return (s || "")
-								+ (l ? r = z + r : r += z).substr(0,
+								+ (l ? r = z + r : r += z).substring(0,
 										i += l ? z.length : 0)
-								+ (i < r.length ? "." + r.substr(i) : "");
+								+ (i < r.length ? "." + r.substring(i) : "");
 					});
 };
 /** @Global */

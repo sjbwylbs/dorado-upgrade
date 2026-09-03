@@ -1898,8 +1898,7 @@
 			if (menuContentHeight > dom.offsetHeight) {
 				menu.handleOverflow();
 			}
-			let items = menu._items || {},
-				visibleItemCount = 0;
+			let visibleItemCount = 0;
 			for (let i = 0, j = items.size; i < j; i++) {
 				let item = items.get(i);
 				if (item._visible === false) {

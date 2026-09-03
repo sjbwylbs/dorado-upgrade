@@ -6,9 +6,6 @@ const rootDir = path.resolve(__dirname);
 
 const sourceDirs = [
     path.join(rootDir, 'scripts', 'dorado'),
-    path.join(rootDir, 'skins', 'default'),
-    path.join(rootDir, 'skins', 'modern'),
-    path.join(rootDir, 'console', 'scripts')
 ];
 
 const excluded = ['_convert.js'];

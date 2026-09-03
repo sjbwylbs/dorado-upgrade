@@ -2,13 +2,17 @@
   "compilerOptions": {
     "target": "ES2020",
     "module": "None",
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "lib": [
+      "ES2020",
+      "DOM",
+      "DOM.Iterable"
+    ],
     "allowJs": false,
     "checkJs": false,
     "declaration": false,
     "sourceMap": false,
-    "outDir": "./dist",
-    "rootDir": "./",
+    "outDir": "./scripts",
+    "rootDir": "./src",
     "strict": false,
     "noImplicitAny": false,
     "strictNullChecks": false,
@@ -20,7 +24,7 @@
     "moduleResolution": "node",
     "noEmit": false,
     "noEmitOnError": false,
-    "ignoreDeprecations": "6.0",
+    "ignoreDeprecations": "5.0",
     "noImplicitThis": false,
     "noImplicitReturns": false,
     "noUnusedLocals": false,
@@ -28,13 +32,10 @@
     "noFallthroughCasesInSwitch": false
   },
   "include": [
-    "scripts/dorado/**/*.ts",
-    "skins/**/*.ts",
-    "console/scripts/**/*.ts"
+    "src/**/*.ts"
   ],
   "exclude": [
     "node_modules",
-    "dist",
     "**/*.min.js",
     "**/*.js"
   ]
